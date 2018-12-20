@@ -17,6 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n26.model.Statistics;
@@ -178,7 +181,28 @@ public class TransactionControllerTest {
 
 	}
 	
+	@Test
+	public void postTransaction_WhileTimeStampFuture_Failure() throws Exception {
+		
+
+		transaction.setAmount(new BigDecimal("45.46"));		
+		LocalDate localDate = LocalDate.parse("2019-04-17");
+		LocalDateTime localDateTime = localDate.atStartOfDay();
+		Instant instant = localDateTime.toInstant(ZoneOffset.UTC);		
+		transaction.setTimestamp(instant);
+		MvcResult mvcResult = mockMVC.perform(post("/transaction")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(transaction)))
+				.andExpect(status().isCreated()).andReturn();	
+		
 	
+		
+				
+		
+		System.out.println(mvcResult.getResponse().getContentAsString());
+		
+
+	}
 
 	
 	
