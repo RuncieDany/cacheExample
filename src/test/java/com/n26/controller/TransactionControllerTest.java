@@ -58,14 +58,11 @@ public class TransactionControllerTest {
 	@Test
 	public void postTransaction_whileInvalidData_Failure() throws Exception {
 		
-
-		transaction.setAmount(new BigDecimal("45.46"));
-		//Instant instant= new Instant ();
-		Instant test=Instant.now();
-		transaction.setTimestamp(test);
+       String testData=" { 'Train': 'Example'}";
+		
 		MvcResult mvcResult = mockMVC.perform(post("/transaction")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(transaction)))
+				.content(objectMapper.writeValueAsString(testData)))
 				.andExpect(status().isBadRequest()).andReturn();	
 		
 		System.out.println(mvcResult.getResponse().getCharacterEncoding());		
@@ -193,14 +190,33 @@ public class TransactionControllerTest {
 		MvcResult mvcResult = mockMVC.perform(post("/transaction")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(transaction)))
-				.andExpect(status().isCreated()).andReturn();	
-		
-	
-		
+				.andExpect(status().isUnprocessableEntity())
+				.andExpect(jsonPath("$").doesNotExist())
+				.andReturn();		
 				
 		
 		System.out.println(mvcResult.getResponse().getContentAsString());
 		
+
+	}
+	
+	@Test
+	public void postTransaction_WhileTimeStampPast60Sec_Failure() throws Exception {
+		
+
+		transaction.setAmount(new BigDecimal("45.46"));		
+		LocalDate localDate = LocalDate.parse("2018-12-20");
+		LocalDateTime localDateTime = localDate.atStartOfDay();
+		Instant instant = localDateTime.toInstant(ZoneOffset.UTC);		
+		transaction.setTimestamp(instant);
+		MvcResult mvcResult = mockMVC.perform(post("/transaction")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(transaction)))
+				.andExpect(status().isNoContent())
+				.andExpect(jsonPath("$").doesNotExist())
+				.andReturn();			
+		
+			
 
 	}
 
