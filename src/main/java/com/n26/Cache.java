@@ -1,12 +1,14 @@
 package com.n26;
 
+import java.math.BigDecimal;
+
 public interface Cache {
     
-    void add(String key, Object value, long periodInMillis);
+    void add(int key, BigDecimal value, long periodInMillis);
  
-    void remove(String key);
+    void remove(int key);
  
-    Object get(String key);
+    Object get(int key);
  
     void clear();
  
