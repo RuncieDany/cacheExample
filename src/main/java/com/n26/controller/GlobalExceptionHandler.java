@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.n26.exception.Past60Seconds;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler  {
 	
 	private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);	
-@ExceptionHandler(MismatchedInputException.class)	
+@ExceptionHandler(InvalidFormatException.class)	
 @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 public void ParseExceptionhandler(Exception exception) {
 	logger.error("Exception during execution ",exception.getMessage());
@@ -35,12 +36,24 @@ public void past60Secondshandler(Exception exception) {
 public void invalidArgumentHandler(Exception exception) {
 	logger.error("Exception during execution ",exception);
 	
+	
+	
+	
+	
 }
 
 @ExceptionHandler(HttpMessageNotReadableException.class)	
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public void invalidJsonHandler(Exception exception) {
-	logger.error("Invalid Json during execution ",exception);
+//@ResponseStatus(HttpStatus.BAD_REQUEST)
+public void invalidJsonHandler(Exception exception) throws Exception {
+	logger.error("Invalid Json during execution ",exception.getCause());
+	try {
+		throw new Exception (exception.getCause());
+	}
+	catch (InvalidFormatException innerexception) {
+		ParseExceptionhandler(innerexception);
+		
+	}
+	
 	
 }
 

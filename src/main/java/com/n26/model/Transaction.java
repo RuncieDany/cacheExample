@@ -8,6 +8,7 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 
 @Component
 @JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown=false)
 public class Transaction {
 	@Valid
 	@NotNull

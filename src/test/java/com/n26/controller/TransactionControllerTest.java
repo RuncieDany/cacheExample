@@ -58,11 +58,28 @@ public class TransactionControllerTest {
 	@Test
 	public void postTransaction_whileInvalidData_Failure() throws Exception {
 		
-       String testData=" { 'Train': 'Example'}";
+       String testData= " \"Hello world!\"}";      
 		
 		MvcResult mvcResult = mockMVC.perform(post("/transaction")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(testData)))
+				.content(testData))
+				.andExpect(status().isBadRequest()).andReturn();	
+		
+		System.out.println(mvcResult.getResponse().getCharacterEncoding());		
+		
+
+	}
+	@Test
+	public void postTransaction_whileunParseableData_Failure() throws Exception {
+		
+       String testData="{\r\n" + 
+          		"  \"amount\": \"345.3343\",\r\n" + 
+           		"  \"timestamp\": \"2015678-07-17T09:59:51.312Z\"\r\n" + 
+           		"}";      
+		
+		MvcResult mvcResult = mockMVC.perform(post("/transaction")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(testData))
 				.andExpect(status().isBadRequest()).andReturn();	
 		
 		System.out.println(mvcResult.getResponse().getCharacterEncoding());		
@@ -82,6 +99,7 @@ public class TransactionControllerTest {
 		MvcResult mvcResult = mockMVC.perform(post("/transaction")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(transaction)))
+				.andExpect(jsonPath("$").doesNotExist())
 				.andExpect(status().isCreated()).andReturn();	
 		
 		System.out.println(mvcResult.getResponse().getContentAsString());		
