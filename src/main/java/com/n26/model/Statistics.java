@@ -2,6 +2,8 @@ package com.n26.model;
 
 import java.math.BigDecimal;
 
+import org.springframework.stereotype.Component;
+@Component
 public class Statistics {
 	private BigDecimal sum;
 	private BigDecimal avg;

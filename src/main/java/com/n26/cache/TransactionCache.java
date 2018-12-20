@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 
 import java.lang.ref.SoftReference;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.DelayQueue;
@@ -69,19 +70,26 @@ public class TransactionCache implements Cache {
 		avg= new BigDecimal("0");
 		min=new BigDecimal("0");
 		max=new BigDecimal("0");
+		BigDecimal tempValue=new BigDecimal("0");
 		count=0;
 		for (int key:cache.keySet()) {
-			sum=sum.add(cache.get(key).get());
-			count++;
-			if ( (min.compareTo(cache.get(key).get()))>1) {
-				min=cache.get(key).get();				
-			}
-			if ( (max.compareTo(cache.get(key).get()))<0) {
-				max=cache.get(key).get();				
-			}
+			tempValue=cache.get(key).get();
+			sum=sum.add(tempValue);
+			System.out.println("tempValue is"+tempValue);
+			System.out.println("min is"+min);
+			System.out.println("comparevalue is"+min.compareTo(tempValue));
 			
+			if ( (min.compareTo(tempValue))>0|| min.intValue()==0) {
+				min=tempValue;				
+			}
+			if  (max.compareTo(tempValue)<0) {
+				max=tempValue;				
+			}
+			count++;
 		}
-		avg=sum.divide(new BigDecimal(count));
+		if (count>0) {
+		avg=sum.divide(new BigDecimal(count),2,RoundingMode.HALF_UP);
+		}
 		
 		
 	}
@@ -99,6 +107,7 @@ public class TransactionCache implements Cache {
 	@Override
 	public void clear() {
 		cache.clear();
+		calculate();
 	}
 
 	@Override

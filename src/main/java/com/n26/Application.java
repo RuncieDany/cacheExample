@@ -20,6 +20,7 @@ public class Application {
 		ObjectMapper objectMapper = builder.build();
 		JavaTimeModule module = new JavaTimeModule();
 		objectMapper.registerModule(module);
+		//objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		return objectMapper;
 	}
 }

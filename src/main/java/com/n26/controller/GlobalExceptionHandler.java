@@ -7,19 +7,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.n26.exception.Past60Seconds;
+
 @ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler  {
 	
-	private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);	
+@ExceptionHandler(MismatchedInputException.class)	
+@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+public void ParseExceptionhandler(Exception exception) {
+	logger.error("Exception during execution ",exception);
+	
+}
 
-	@ExceptionHandler(Throwable.class)
-	protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
-		logger.error("Exception during execution of SpringSecurity application", ex);
-		String bodyOfResponse="Test";
-
-		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
-	}
+@ExceptionHandler(Past60Seconds.class)	
+@ResponseStatus(HttpStatus.NO_CONTENT)
+public void past60Secondshandler(Exception exception) {
+	logger.error("Exception during execution ",exception);
+	
+}
 }

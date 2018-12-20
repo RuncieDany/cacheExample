@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.n26.cache.TransactionCache;
+import com.n26.exception.Past60Seconds;
 import com.n26.model.Statistics;
 import com.n26.model.Transaction;
 import com.n26.util.CacheKeyGenerator;
@@ -34,13 +35,16 @@ public class TransactionService {
 
 	}
 
-	public void postTransaction(Transaction transaction) {
+	public void postTransaction(Transaction transaction) throws Exception {
 
 		Long diffwithSystime = TimeCalculator.instantDifference(transaction.getTimestamp());
 
 		if (diffwithSystime <= 60000L) {
 			transactionCache.add(CacheKeyGenerator.getKey(), transaction.getAmount(), 60000L - diffwithSystime);
 
+		}
+		else {
+			throw new Past60Seconds();
 		}
 
 	}

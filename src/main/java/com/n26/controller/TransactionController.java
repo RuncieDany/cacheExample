@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +29,15 @@ public class TransactionController {
 	}
 	@PostMapping(value="/transaction")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void postTransaction(@RequestBody @Valid Transaction transaction) {
+	public void postTransaction(@RequestBody @Valid Transaction transaction) throws Exception {
 		transactionService.postTransaction(transaction);
+		
+	}
+	
+	@DeleteMapping(value="/transactions")
+	@ResponseStatus(value=HttpStatus.NO_CONTENT)
+	public void deleteTransactions() {
+		transactionService.deleteAllTransaction();
 		
 	}
 
