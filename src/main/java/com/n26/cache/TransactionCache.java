@@ -75,9 +75,7 @@ public class TransactionCache implements Cache {
 		for (int key:cache.keySet()) {
 			tempValue=cache.get(key).get();
 			sum=sum.add(tempValue);
-			System.out.println("tempValue is"+tempValue);
-			System.out.println("min is"+min);
-			System.out.println("comparevalue is"+min.compareTo(tempValue));
+			
 			
 			if ( (min.compareTo(tempValue))>0|| min.equals(new BigDecimal("0.00"))) {
 				min=tempValue;				

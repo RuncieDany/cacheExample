@@ -64,7 +64,7 @@ public class TransactionControllerTest {
            		"  \"timestamp\": \"2015678-07-17T09:59:51.312Z\"\r\n" + 
            		"}";      
 		
-		MvcResult mvcResult = mockMVC.perform(post("/transaction")
+		MvcResult mvcResult = mockMVC.perform(post("/transactions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(testData))
 				.andExpect(status().isUnprocessableEntity()).andReturn();	
@@ -83,7 +83,7 @@ public class TransactionControllerTest {
 		transaction.setAmount(new BigDecimal("45.46"));
 		Instant test=Instant.now();
 		transaction.setTimestamp(test);
-		MvcResult mvcResult = mockMVC.perform(post("/transaction")
+		MvcResult mvcResult = mockMVC.perform(post("/transactions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(transaction)))
 				.andExpect(jsonPath("$").doesNotExist())
@@ -104,21 +104,21 @@ public class TransactionControllerTest {
 		Instant test=Instant.now();
 		
 		transaction.setTimestamp(test);
-		MvcResult mvcResult = mockMVC.perform(post("/transaction")
+		MvcResult mvcResult = mockMVC.perform(post("/transactions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(transaction)))
 				.andExpect(status().isCreated()).andReturn();	
 		
 		transaction.setAmount(new BigDecimal("50.46"));
 				transaction.setTimestamp(test);
-		 mvcResult = mockMVC.perform(post("/transaction")
+		 mvcResult = mockMVC.perform(post("/transactions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(transaction)))
 				.andExpect(status().isCreated()).andReturn();
 		 
 		 transaction.setAmount(new BigDecimal("13.46"));
 			transaction.setTimestamp(test);
-	 mvcResult = mockMVC.perform(post("/transaction")
+	 mvcResult = mockMVC.perform(post("/transactions")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(transaction)))
 			.andExpect(status().isCreated()).andReturn();	
@@ -144,21 +144,21 @@ public class TransactionControllerTest {
 		transaction.setAmount(new BigDecimal("45.46"));
 		Instant test=Instant.now();
 		transaction.setTimestamp(test);
-		MvcResult mvcResult = mockMVC.perform(post("/transaction")
+		MvcResult mvcResult = mockMVC.perform(post("/transactions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(transaction)))
 				.andExpect(status().isCreated()).andReturn();	
 		
 		transaction.setAmount(new BigDecimal("50.46"));
 				transaction.setTimestamp(test);
-		 mvcResult = mockMVC.perform(post("/transaction")
+		 mvcResult = mockMVC.perform(post("/transactions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(transaction)))
 				.andExpect(status().isCreated()).andReturn();
 		 
 		 transaction.setAmount(new BigDecimal("13.46"));
 			transaction.setTimestamp(test);
-	 mvcResult = mockMVC.perform(post("/transaction")
+	 mvcResult = mockMVC.perform(post("/transactions")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(transaction)))
 			.andExpect(status().isCreated()).andReturn();	
@@ -169,7 +169,7 @@ public class TransactionControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		
-		mvcResult = mockMVC.perform(delete("/transactions"))
+		mvcResult = mockMVC.perform(delete("/transactionss"))
 				.andExpect(status().isNoContent())
 				.andReturn();
 		
@@ -192,7 +192,7 @@ public class TransactionControllerTest {
 		LocalDateTime localDateTime = localDate.atStartOfDay();
 		Instant instant = localDateTime.toInstant(ZoneOffset.UTC);		
 		transaction.setTimestamp(instant);
-		MvcResult mvcResult = mockMVC.perform(post("/transaction")
+		MvcResult mvcResult = mockMVC.perform(post("/transactions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(transaction)))
 				.andExpect(status().isUnprocessableEntity())
@@ -214,7 +214,7 @@ public class TransactionControllerTest {
 		LocalDateTime localDateTime = localDate.atStartOfDay();
 		Instant instant = localDateTime.toInstant(ZoneOffset.UTC);		
 		transaction.setTimestamp(instant);
-		MvcResult mvcResult = mockMVC.perform(post("/transaction")
+		MvcResult mvcResult = mockMVC.perform(post("/transactions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(transaction)))
 				.andExpect(status().isNoContent())

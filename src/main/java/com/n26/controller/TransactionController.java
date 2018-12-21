@@ -27,7 +27,7 @@ public class TransactionController {
 	public Statistics getStatistics() throws Exception {
 		return transactionService.getAllStatistics();
 	}
-	@PostMapping(value="/transaction")
+	@PostMapping(value="/transactions")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void postTransaction(@RequestBody @Valid Transaction transaction) throws Exception {
 		transactionService.postTransaction(transaction);
