@@ -43,16 +43,10 @@ public void invalidArgumentHandler(Exception exception) {
 }
 
 @ExceptionHandler(HttpMessageNotReadableException.class)	
-//@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 public void invalidJsonHandler(Exception exception) throws Exception {
 	logger.error("Invalid Json during execution ",exception.getCause());
-	try {
-		throw new Exception (exception.getCause());
-	}
-	catch (InvalidFormatException innerexception) {
-		ParseExceptionhandler(innerexception);
-		
-	}
+	
 	
 	
 }

@@ -66,10 +66,10 @@ public class TransactionCache implements Cache {
 	}
 
 	private void calculate() {
-		sum = new BigDecimal("0");
-		avg= new BigDecimal("0");
-		min=new BigDecimal("0");
-		max=new BigDecimal("0");
+		sum = new BigDecimal("0.00");
+		avg= new BigDecimal("0.00");
+		min=new BigDecimal("0.00");
+		max=new BigDecimal("0.00");
 		BigDecimal tempValue=new BigDecimal("0");
 		count=0;
 		for (int key:cache.keySet()) {
@@ -79,7 +79,7 @@ public class TransactionCache implements Cache {
 			System.out.println("min is"+min);
 			System.out.println("comparevalue is"+min.compareTo(tempValue));
 			
-			if ( (min.compareTo(tempValue))>0|| min.intValue()==0) {
+			if ( (min.compareTo(tempValue))>0|| min.equals(new BigDecimal("0.00"))) {
 				min=tempValue;				
 			}
 			if  (max.compareTo(tempValue)<0) {

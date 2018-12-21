@@ -55,20 +55,7 @@ public class TransactionControllerTest {
 		objectMapper=new ObjectMapper();		
 	}
 
-	@Test
-	public void postTransaction_whileInvalidData_Failure() throws Exception {
-		
-       String testData= " \"Hello world!\"}";      
-		
-		MvcResult mvcResult = mockMVC.perform(post("/transaction")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(testData))
-				.andExpect(status().isBadRequest()).andReturn();	
-		
-		System.out.println(mvcResult.getResponse().getCharacterEncoding());		
-		
-
-	}
+	
 	@Test
 	public void postTransaction_whileunParseableData_Failure() throws Exception {
 		
@@ -80,7 +67,7 @@ public class TransactionControllerTest {
 		MvcResult mvcResult = mockMVC.perform(post("/transaction")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(testData))
-				.andExpect(status().isBadRequest()).andReturn();	
+				.andExpect(status().isUnprocessableEntity()).andReturn();	
 		
 		System.out.println(mvcResult.getResponse().getCharacterEncoding());		
 		

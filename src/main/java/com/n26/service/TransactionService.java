@@ -20,11 +20,11 @@ public class TransactionService {
 	
 	public Statistics getAllStatistics() {
 
-		statistics.setAvg(transactionCache.getAvg());
+		statistics.setAvg(transactionCache.getAvg().toString());
 		statistics.setCount(transactionCache.getCount());
-		statistics.setMax(transactionCache.getMax());
-		statistics.setMin(transactionCache.getMin());
-		statistics.setSum(transactionCache.getSum());
+		statistics.setMax(transactionCache.getMax().toString());
+		statistics.setMin(transactionCache.getMin().toString());
+		statistics.setSum(transactionCache.getSum().toString());
 
 		return statistics;
 	}
